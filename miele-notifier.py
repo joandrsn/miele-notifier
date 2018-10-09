@@ -55,8 +55,8 @@ def get_machines():
   result = []
   for m in originalmachineobject['MachineStates']:
     machine = {}
-    machine['type'] = 'Washer' if m['machineSymbol'] == 0 else 'Dryer'
-    machine['in_use'] = False if m['machineColor'] == 1 else True
+    machine['type'] = 'Dryer' if m['machineSymbol'] else 'Washer'
+    machine['in_use'] = not m['machineColor']
     machine['status'] = m['text1']
     machine['unitName'] = m['unitName']
     machine['id'] = m['unitName'].replace("Machine ", "")
