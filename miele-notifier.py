@@ -10,7 +10,7 @@ from pprint import pprint
 from time import sleep
 from pushover import Client
 
-watchids = []
+watchids = set()
 config = {}
 
 def sigint_handle(sig, frame):
@@ -56,7 +56,7 @@ def get_machines():
   for m in originalmachineobject['MachineStates']:
     machine = {}
     machine['type'] = 'Dryer' if m['machineSymbol'] else 'Washer'
-    machine['in_use'] = not m['machineColor']
+    machine['in_use'] = False if m['machineColor'] == 1 else True
     machine['status'] = m['text1']
     machine['unitName'] = m['unitName']
     machine['id'] = m['unitName'].replace("Machine ", "")
@@ -105,7 +105,7 @@ def handle_args():
     exit_with_msg(list_machines(), 0)
   else:
     global watchids
-    watchids = sys.argv[1].split(',')
+    watchids = set(sys.argv[1].split(','))
 
 def main():
   readconfig()
